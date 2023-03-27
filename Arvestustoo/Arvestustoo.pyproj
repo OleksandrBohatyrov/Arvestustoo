@@ -25,7 +25,9 @@
     <Compile Include="trans.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="daymode.png" />
     <Content Include="logo.ico" />
+    <Content Include="nightmode.png" />
     <Content Include="tthk.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

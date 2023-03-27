@@ -23,13 +23,11 @@ start_button.pack()
 welcome_form.mainloop()
 
 
-
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
     database = "login"
 )
-
 
 
 
@@ -57,6 +55,9 @@ def initialize_interface(parent):
                               foreground = "White", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
     labelPass.place(x=25,y=57)
 
+    LabelSwitch = Label(parent,text="Lülitus hele/tume teema ==>>", font=("Arial", 10), bg='#141414', fg='#FFFFFF')
+    LabelSwitch.place(x=400, y=150)
+
     entryPass = Entry(parent,textvariable=password, show="*")
     entryPass.place(x=100,y=60)
 
@@ -82,6 +83,34 @@ def initialize_interface(parent):
     label.pack(side=BOTTOM, pady=10)
 
  
+    #nightmode-------------------
+    image = PhotoImage(file="nightmode.png")
+    smaller_image = image.subsample(7)  
+    label = Label(parent, image=smaller_image, bg="#141414")
+    label.image = smaller_image  
+    label.pack(side=BOTTOM, pady=10)
+    label.place(x=570, y=100)
+
+    
+    #daymode------------------------
+    image = PhotoImage(file="daymode.png")
+    smaller_dayimage = image.subsample(7)  
+    label = Label(parent, image=smaller_dayimage, bg="#141414")
+    label.image = smaller_dayimage  
+    label.pack(side=BOTTOM, pady=10)
+    label.place(x=585, y=120)
+
+    def switch_theme():
+        current_theme = parent.cget('bg')
+        if current_theme == "#FFFFFF":
+            parent.configure(bg="#141414")
+            theme_button.configure(image=smaller_dayimage)
+        else:
+            parent.configure(bg="#FFFFFF")
+            theme_button.configure(image=smaller_image)
+
+    theme_button = Button(parent, image=smaller_image, bg="#141414", fg='#FFFFFF', borderwidth=0, command=switch_theme)
+    theme_button.place(x=570, y=120)
 
 
 def register():
@@ -115,7 +144,6 @@ def open_file():
 def reset_password():
     mycursor = mydb.cursor()
 
-
     sql = "SELECT * FROM login WHERE BINARY username = %s"
     val = (username.get(),)
     mycursor.execute(sql, val)
@@ -125,14 +153,12 @@ def reset_password():
         message_label.config(text="Kasutajanimi ei eksisteeri.")
         return
 
-
     new_password = askstring("Uus parool", "Sisesta uus parool", show="*")
 
     if not new_password:
         message_label.config(text="Uus parool on nõutav.")
         return
 
-  
     sql = "UPDATE login SET Password = %s WHERE BINARY username = %s"
     val = (new_password, username.get())
     mycursor.execute(sql, val)
