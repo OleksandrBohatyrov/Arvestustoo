@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>3e7e7139-a695-421c-a6ac-458b23767b5a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>login.py</StartupFile>
+    <StartupFile>trans.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

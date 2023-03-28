@@ -11,7 +11,7 @@ welcome_form.configure(bg="#141414")
 welcome_form.iconbitmap('logo.ico')
 
 
-welcome_message = Label(welcome_form, text="Welcome to Translate!", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
+welcome_message = Label(welcome_form, text="Tere tulemast tõlkima!", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
 welcome_message.pack(pady=20)
 def start_game():
     welcome_form.destroy() 
@@ -30,7 +30,6 @@ mydb = mysql.connector.connect(
 )
 
 
-
 def initialize_interface(parent):
 
     parent.title("Login")
@@ -44,35 +43,32 @@ def initialize_interface(parent):
     username = StringVar()
     password = StringVar()
 
-    labelUser = Label(parent,text="Nimi: ", background = "dark slate gray",
-                              foreground = "White", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
+    labelUser = Label(parent,text="Nimi: ", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
     labelUser.place(x=25,y=20)
 
     entryUser = Entry(parent,textvariable=username)
     entryUser.place(x=100,y=25)
 
-    labelPass = Label(parent,text="Parool: ", background = "dark slate gray",
-                              foreground = "White", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
-    labelPass.place(x=25,y=57)
 
-    LabelSwitch = Label(parent,text="Lülitus hele/tume teema ==>>", font=("Arial", 10), bg='#141414', fg='#FFFFFF')
-    LabelSwitch.place(x=400, y=150)
+    labelPass = Label(parent,text="Parool: ", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
+    labelPass.place(x=25,y=57)
 
     entryPass = Entry(parent,textvariable=password, show="*")
     entryPass.place(x=100,y=60)
 
-    buttonLogin = Button(parent,text="LOGIN", font = "Arial 14 bold",command=login, bg='#141414', fg='#FFFFFF')
+
+    global message_label
+    message_label = Label(parent, text="", bg="#141414", fg="#FFFFFF", font="Arial 8 bold")
+    message_label.place(x=25, y=89)
+
+
+    buttonLogin = Button(parent,text="LOGIN", font = "Arial 14 bold", command=login, bg='#141414', fg='#FFFFFF')
     buttonLogin.place(height=45,width=79 ,x=250,y=29)
 
     buttonRegister = Button(parent, text="REGISTER", font = "Arial 14 bold", bg='#141414', fg='#FFFFFF', command=register)
     buttonRegister.place(height=45,width=119, x=340, y=29)
-    
-    global message_label
-    message_label = Label(parent, text="", background="#141414", foreground="#FFFFFF", font="Arial 8 bold")
-    message_label.place(x=25, y=89)
 
-
-    buttonResetPass = Button(parent, text="RESET PASSWORD", font="Arial 14 bold", bg='#141414', fg='#FFFFFF', command=reset_password)
+    buttonResetPass = Button(parent, text="RESET PASSWORD", font="Arial 14 bold", bg="#141414", fg="#FFFFFF", command=reset_password)
     buttonResetPass.place(height=45,width=200, x=475, y=29)
 
 
@@ -82,36 +78,33 @@ def initialize_interface(parent):
     label.image = smaller_image  
     label.pack(side=BOTTOM, pady=10)
 
- 
-    #nightmode-------------------
-    image = PhotoImage(file="nightmode.png")
-    smaller_image = image.subsample(7)  
-    label = Label(parent, image=smaller_image, bg="#141414")
-    label.image = smaller_image  
-    label.pack(side=BOTTOM, pady=10)
-    label.place(x=570, y=100)
 
+    def dark():
+        parent.configure(bg="#141414")
+        labelUser.config(bg="#141414", fg="#FFFFFF")
+        labelPass.config(bg="#141414", fg="#FFFFFF")
+        buttonLogin.config(bg="#141414", fg="#FFFFFF")
+        buttonRegister.config(bg="#141414", fg="#FFFFFF")
+        buttonResetPass.config(bg="#141414",fg="#FFFFFF")
+        message_label.config(bg="#141414", fg="#FFFFFF")
+        label.config(bg="#141414")
+
+    def light():
+        parent.configure(bg="#FFFFFF")
+        labelUser.config(bg="#FFFFFF", fg="BLACK")
+        labelPass.config(bg="#FFFFFF",fg="BLACK")
+        buttonLogin.config(bg="#FFFFFF",fg="BLACK")
+        buttonRegister.config(bg="#FFFFFF",fg="BLACK")
+        buttonResetPass.config(bg="#FFFFFF",fg="BLACK")
+        label.config(bg="#FFFFFF",fg="#121212")
+        message_label.config(bg="#FFFFFF", fg="BLACK")
+
+    dark_btn = Button(parent, text="Tume",bg="#141414",fg="#FFFFFF",command=dark)
+    dark_btn.place(y=120, x=100)
     
-    #daymode------------------------
-    image = PhotoImage(file="daymode.png")
-    smaller_dayimage = image.subsample(7)  
-    label = Label(parent, image=smaller_dayimage, bg="#141414")
-    label.image = smaller_dayimage  
-    label.pack(side=BOTTOM, pady=10)
-    label.place(x=585, y=120)
-
-    def switch_theme():
-        current_theme = parent.cget('bg')
-        if current_theme == "#FFFFFF":
-            parent.configure(bg="#141414")
-            theme_button.configure(image=smaller_dayimage)
-        else:
-            parent.configure(bg="#FFFFFF")
-            theme_button.configure(image=smaller_image)
-
-    theme_button = Button(parent, image=smaller_image, bg="#141414", fg='#FFFFFF', borderwidth=0, command=switch_theme)
-    theme_button.place(x=570, y=120)
-
+    light_btn = Button(parent, text="Hele",bg="#FFFFFF",fg="#121212",command=light)
+    light_btn.place(y=120, x=27)
+ 
 
 def register():
     mycursor = mydb.cursor()
@@ -166,21 +159,25 @@ def reset_password():
 
     message_label.config(text="Parool muudetud.")
 
+
 def login():
     mycursor = mydb.cursor()
     sql = "SELECT * FROM login WHERE BINARY username = '%s' AND BINARY password = '%s'" % (username.get(),password.get())
     mycursor.execute(sql)
     if mycursor.fetchone():
         open_file()
+
     else:
 
          message_label.config(text="Kehtetud volikirjad")
+
 
 def main():
 
     root = Tk()
     initialize_interface(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()

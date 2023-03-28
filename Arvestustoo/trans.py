@@ -54,6 +54,29 @@ translated_text = Text(root, height=10, width=40, bg='#141414', fg='#FFFFFF', fo
 translated_text.grid(row=0, column=2, pady=20, padx=10)
 
 
+
+def dark():
+    root.configure(bg="#141414")
+    original_text.config(bg="#141414", fg="#FFFFFF")
+    translate_button.config(bg="#141414", fg="#FFFFFF")
+    translated_text.config(bg="#141414", fg="#FFFFFF")
+    clear_button.config(bg="#141414", fg="#FFFFFF")
+
+
+def light():
+    img_label.config(bg="#FFFFFF")
+    root.config(bg="#FFFFFF")
+    original_text.config(bg="#FFFFFF", fg="BLACK")
+    translate_button.config(bg="#FFFFFF",fg="BLACK")
+    translated_text.config(bg="#FFFFFF",fg="BLACK")
+    clear_button.config(bg="#FFFFFF", fg="BLACK")
+
+dark_btn = Button(root, text="Tume",bg="#141414",fg="#FFFFFF",command=dark)
+dark_btn.place(y=180, x=500)
+    
+light_btn = Button(root, text="Hele",bg="#FFFFFF",fg="#121212",command=light)
+light_btn.place(y=180, x=570)
+
 style = ttk.Style()
 style.theme_use('clam')
 style.configure("TCombobox",fieldbackground='black', background= "#ffcc00",foreground='white')
@@ -68,12 +91,13 @@ translated_combo = ttk.Combobox(root, width=50, value=language_list)
 translated_combo.current(23)
 translated_combo.grid(row=1, column=2)
 
-
 def clear():
 	original_text.delete(1.0, END)
 	translated_text.delete(1.0, END)
 
-clear_button = Button(root, text="Clear", command=clear, bg='#141414', fg='#FFFFFF')
-clear_button.grid(row=2, column=1)
+
+clear_button = Button(root, text="Clear", command=clear, font=("Helvetica", 14), width=7, bg='#141414', fg='#FFFFFF')
+clear_button.place(y=220, x=510)
+
 
 root.mainloop()
