@@ -8,7 +8,7 @@ welcome_form = Tk()
 welcome_form.title("Welcome to Translator")
 welcome_form.geometry("700x500")
 welcome_form.configure(bg="#141414")
-welcome_form.iconbitmap('logo.ico')
+welcome_form.iconbitmap("logo.ico")
 
 
 welcome_message = Label(welcome_form, text="Tere tulemast tõlkima!", font=("Arial", 16), bg='#141414', fg='#FFFFFF')
@@ -104,7 +104,39 @@ def initialize_interface(parent):
     
     light_btn = Button(parent, text="Hele",bg="#FFFFFF",fg="#121212",command=light)
     light_btn.place(y=120, x=27)
- 
+
+
+
+    def estonian():
+        labelUser.config(text="Nimi: ")
+        labelPass.config(text="Parool: ")
+        buttonLogin.config(text="LOGIN")
+        buttonRegister.config(text="REGISTER")
+        buttonRegister.place(height=45,width=119, x=340, y=29)
+        buttonResetPass.config(text="RESET PASSWORD")
+        buttonResetPass.place(height=45,width=200, x=475, y=29)
+        dark_btn.config(text="Tume")
+        light_btn.config(text="Hele")
+
+    def russian():
+        labelUser.config(text="Имя: ")
+        labelPass.config(text="Пароль: ")
+        buttonLogin.config(text="ЛОГИН")
+        buttonRegister.config(text="РЕГИСТРАЦИЯ")
+        buttonRegister.place(height=45,width=150)
+        buttonResetPass.config(text="Смена пароля")
+        buttonResetPass.place(height=45,width=150, x=500, y=29)
+        dark_btn.config(text="Темная")
+        light_btn.config(text="Светлая")
+    
+    est_btn = Button(parent, text="Eesti keeles",bg='#141414',fg='#FFFFFF',command=estonian)
+    est_btn.place(y=120, x=270)
+
+    rus_btn = Button(parent, text="На русском",bg='#141414',fg='#FFFFFF',command=russian)
+    rus_btn.place(y=120,x=160)
+
+
+
 
 def register():
     mycursor = mydb.cursor()
@@ -116,7 +148,7 @@ def register():
     result = mycursor.fetchone()
 
     if result:
-        message_label.config(text="Kasutajanimi on juba olemas.")
+        h=message_label.config(text="Kasutajanimi on juba olemas.")
         return
 
     # Добавляем новую запись в базу данных
@@ -125,7 +157,7 @@ def register():
     mycursor.execute(sql, val)
     mydb.commit()
 
-    message_label.config(text="Kirje sisestatud.")
+    g=message_label.config(text="Kirje sisestatud.")
 
     print(mycursor.rowcount, "Kirje sisestatud.")
 
@@ -143,13 +175,13 @@ def reset_password():
     result = mycursor.fetchone()
 
     if not result:
-        message_label.config(text="Kasutajanimi ei eksisteeri.")
+        d=message_label.config(text="Kasutajanimi ei eksisteeri.")
         return
 
     new_password = askstring("Uus parool", "Sisesta uus parool", show="*")
 
     if not new_password:
-        message_label.config(text="Uus parool on nõutav.")
+        c=message_label.config(text="Uus parool on nõutav.")
         return
 
     sql = "UPDATE login SET Password = %s WHERE BINARY username = %s"
@@ -157,7 +189,7 @@ def reset_password():
     mycursor.execute(sql, val)
     mydb.commit()
 
-    message_label.config(text="Parool muudetud.")
+    a=message_label.config(text="Parool muudetud.")
 
 
 def login():
@@ -169,7 +201,7 @@ def login():
 
     else:
 
-         message_label.config(text="Kehtetud volikirjad")
+         b=message_label.config(text="Kehtetud volikirjad")
 
 
 def main():
