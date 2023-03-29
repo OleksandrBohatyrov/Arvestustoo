@@ -8,12 +8,12 @@ root = Tk()
 root.title("")
 root.geometry("1200x700")
 root.configure(bg="#141414")
-root.iconbitmap('logo.ico')
+root.iconbitmap("logo.ico")
 
 img = Image.open("tthk.png")
 img = img.resize((900, 400))
 img = ImageTk.PhotoImage(img)
-img_label = Label(root, image=img, bg='#141414')
+img_label = Label(root, image=img, bg="#141414")
 img_label.place(x=85, y=290) 
 
 
@@ -54,8 +54,8 @@ translated_text = Text(root, height=10, width=40, bg='#141414', fg='#FFFFFF', fo
 translated_text.grid(row=0, column=2, pady=20, padx=10)
 
 
-
 def dark():
+    img_label.config(bg="#141414")
     root.configure(bg="#141414")
     original_text.config(bg="#141414", fg="#FFFFFF")
     translate_button.config(bg="#141414", fg="#FFFFFF")
